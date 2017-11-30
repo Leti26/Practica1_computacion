@@ -97,11 +97,15 @@
 			{% endfor %}</pre>
 			</form>
 			<script type="text/javascript">
-				var sse = new EventSouerce("/alerta");
+				var sse = new EventSouerce("/event_stream");
 				sse.onmessage = function(event){
-					alert(event.data);				};
-				};
-			</script>		
+					var alert = event.data;
+					obj = JSON.parse(alert)
+					if (obj.tipo == 'alerta'){
+						alert("Cuidado, el numero: " +obj.valor "supera el umbral");
+					};			
+			};
+			</script>
 		</section>
 	</body>
 </html>
