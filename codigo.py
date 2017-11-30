@@ -8,6 +8,7 @@ import atexit
 import numpy as np
 from pymongo import MongoClient
 from beebotte import *
+from flask_sse import sse
 from flask import Flask, render_template, request, redirect, Response
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -107,7 +108,7 @@ def event_stream():
 		data_json_num = json.dumps(numero)
 		umbral = {"tipo": "umbral", "valor": float(umbralActual)}
 		data_json_umb = json.dumps(umbral)
-		yield '%s' %str(data_json_num)
+		yield 'data: %s\n\n' %str(data_json_num)
 
 
 @app.route('/',methods=['GET','POST'])
@@ -148,9 +149,9 @@ def index():
 		return render_template ('pagina.html')
 
 
-@app.route('/alerta')
+@app.route('/event_stream')
 def stream():
-	return Response(event_stream(),mimetype="text/event-stream")
+	return Response(event_stream(), mimetype='text/event-stream')
 
 
 if __name__=='__main__':
