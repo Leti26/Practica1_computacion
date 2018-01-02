@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo service mongod start
+
+cd iroom/
+. flask/bin/activate
+cd flask/scripts/Practica1_computacion
+python codigo.py
